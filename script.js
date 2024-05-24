@@ -1,8 +1,12 @@
-import games from './games.js'
+import games from "./games.js"
 
 document.addEventListener('DOMContentLoaded', () => {
 
     const gameCardContainer = document.getElementById('game-card-container');
+    const searchBar = document.getElementById('search-bar');
+    const smallText = document.getElementById('smallText');
+    
+    const totalGames = games.length;
 
     games.forEach(game => {
         const gameCard = document.createElement('div');
@@ -21,19 +25,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Random game functionality
     document.getElementById('random-game').addEventListener('click', () => {
-        const randomIndex = Math.floor(Math.random() * games.length);
+        const randomIndex = Math.floor(Math.random() * totalGames);
         const randomGame = games[randomIndex];
         window.location.href = randomGame.path;
     });
 
+    const gameCards = Array.from(document.querySelectorAll('.game-card'));
+
     // Search functionality
-    document.getElementById('search-bar').addEventListener('input', (e) => {
+    searchBar.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
-        document.querySelectorAll('.game-card').forEach(card => {
+        
+        let displayedGamesCount = 0;
+        
+        gameCards.forEach(card => {
             const gameName = card.querySelector('h2').innerText.toLowerCase();
-            gameName.includes(searchTerm)
-                ? card.style.display = 'block'
-                : card.style.display = 'none'
+            if (gameName.includes(searchTerm)) {
+                card.style.display = 'block'
+                displayedGamesCount++;
+            } else {
+                card.style.display = 'none';
+            }
         });
+        
+        smallText.style.display = searchTerm ? 'block' : 'none'
+        
+        smallText.textContent = `${displayedGamesCount} out of ${totalGames} games`;
     });
+    
+    // Small text appearing to display number of games when searching
+    searchBar.addEventListener('focus', (e) => {
+        smallText.style.display = 'block';
+        gameCards.forEach(card => card.style.display = 'block');
+        e.target.value = '';
+        smallText.textContent = `${totalGames} out of ${totalGames} games`;
+    });
+    searchBar.addEventListener('blur', (e) => {
+        if (e.target.value) return;
+        smallText.style.display = 'none';
+    })
 });
