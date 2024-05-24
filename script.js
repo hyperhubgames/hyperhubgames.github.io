@@ -1,16 +1,6 @@
+import games from './games.js'
+
 document.addEventListener('DOMContentLoaded', () => {
-    const games = [
-        {
-            name: 'Alien Thief',
-            path: 'swf/alientheif/base.html',
-            image: 'img/alienthief.jpg' 
-        },
-        {
-            name: '1v1.lol',
-            path: 'html/1v1/index.html',
-            image: 'img/1v1.webp' 
-        }
-    ];
 
     const gameCardContainer = document.getElementById('game-card-container');
 
