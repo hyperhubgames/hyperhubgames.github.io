@@ -8,16 +8,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoContainer = document.getElementById('logo-container');
 
     const logoText = 'HyperHub';
-    const letters = [];
 
     // Create the letters for the logo
-    logoText.split('').forEach(char => {
+    const letters = [...logoText].map(char => {
         const span = document.createElement('span');
         span.classList.add('letter');
         span.textContent = char;
         logoContainer.appendChild(span);
-        letters.push(span);
+        return span;
     });
+
+    
+    // logoText.split('').forEach(char => {
+    //     const span = document.createElement('span');
+    //     span.classList.add('letter');
+    //     span.textContent = char;
+    //     logoContainer.appendChild(span);
+    //     letters.push(span);
+    // });
+
+    
 
     function createGameCard(game) {
         const gameCard = document.createElement('div');
