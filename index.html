@@ -4,24 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HyperHub</title>
-    <link rel="stylesheet" href="./style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <a href="index.html" class="site-name">HyperHub</a>
+        <div class="logo"><a href="index.html" id="logo-container"></a></div>
         <nav>
-            <a href="javascript:void(0);" id="random-game">Random Game</a>
-            <a href="about.html">About</a>
+            <ul>
+                <li><a href="#" id="random-game">Random Game</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
         </nav>
-        <small class="game-number-displayer" id="smallText"></small>
-        <input type="text" id="search-bar" placeholder="Search games...">
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Search games...">
+            <div id="search-results-count"></div>
+        </div>
     </header>
     <main>
-        <div class="game-card-container" id="game-card-container">
-            <!-- Game cards will be appended here by JavaScript -->
-        </div>
+        <div id="game-cards-container"></div>
     </main>
-    <script src="./script.js" type="module"></script>
+    <script src="script.js" type="module"></script>
 </body>
 </html>
