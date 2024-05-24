@@ -1,7 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const games = [
-        { name: 'Alien Thief', path: 'swf/alientheif/base.html', image: 'img/alienthief.jpg' },
-        { name: '1v1.lol', path: 'html/1v1/index.html', image: 'img/1v1.webp' }
+        {
+            name: 'Alien Thief',
+            path: 'swf/alientheif/base.html',
+            image: 'img/alienthief.jpg' 
+        },
+        {
+            name: '1v1.lol',
+            path: 'html/1v1/index.html',
+            image: 'img/1v1.webp' 
+        }
     ];
 
     const gameCardContainer = document.getElementById('game-card-container');
@@ -33,11 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchTerm = e.target.value.toLowerCase();
         document.querySelectorAll('.game-card').forEach(card => {
             const gameName = card.querySelector('h2').innerText.toLowerCase();
-            if (gameName.includes(searchTerm)) {
-                card.style.display = '';
-            } else {
-                card.style.display = 'none';
-            }
+            gameName.includes(searchTerm)
+                ? card.style.display = 'block'
+                : card.style.display = 'none'
         });
     });
 });
