@@ -2,20 +2,20 @@ import { games } from './games.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const searchBar = document.getElementById('search-bar'),
-        searchResultsCount = document.getElementById('search-results-count'),
-        gameCardsContainer = document.getElementById('game-cards-container'),
-        randomGameButton = document.getElementById('random-game'),
-        logoContainer = document.getElementById('logo-container');
+          searchResultsCount = document.getElementById('search-results-count'),
+          gameCardsContainer = document.getElementById('game-cards-container'),
+          randomGameButton = document.getElementById('random-game'),
+          logoContainer = document.getElementById('logo-container');
 
     const logoText = 'HyperHub';
 
     // Create the letters for the logo
     const letters = [...logoText].map(char => {
-        const spanEl = `
-            <span class="letter">${char}</span>
-        `
-        logoContainer.insertAdjacentHTML('beforeend', spanEl);
-        return spanEl;
+        const span = document.createElement('span');
+        span.classList.add('letter');
+        span.textContent = char;
+        logoContainer.appendChild(span);
+        return span;
     });
 
     function createGameCard(game) {
