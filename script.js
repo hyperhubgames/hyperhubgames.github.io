@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function createGameCard(game) {
-        const { image, title, link } = game;
+        const { title, image, link } = game;
         const gameCard = `
             <div class="game-card">
                 <img src="${image}" alt="${title}">
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // updating the DOM every single time we have a game. Instead, we should update 
         // it just once, here's how:
 
-        const allGameCardsHTML = [...Array(games.length)].map(game => createGameCard(game)).join('');
+        const allGameCardsHTML = games.map(game => createGameCard(game)).join('');
         // This code above generates a string full of all of the HTML of each game combined.
         // This way, we can just append it once to the DOM to save lots of time and efficiency.
         console.log(allGameCardsHTML);
