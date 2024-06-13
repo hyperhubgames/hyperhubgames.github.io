@@ -1,11 +1,11 @@
 import { games } from './games.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const searchBar = document.getElementById('search-bar');
-    const searchResultsCount = document.getElementById('search-results-count');
-    const gameCardsContainer = document.getElementById('game-cards-container');
-    const randomGameButton = document.getElementById('random-game');
-    const logoContainer = document.getElementById('logo-container');
+    const searchBar = document.getElementById('search-bar'),
+        searchResultsCount = document.getElementById('search-results-count'),
+        gameCardsContainer = document.getElementById('game-cards-container'),
+        randomGameButton = document.getElementById('random-game'),
+        logoContainer = document.getElementById('logo-container');
 
     const logoText = 'HyperHub';
 
@@ -18,47 +18,38 @@ document.addEventListener('DOMContentLoaded', () => {
         return span;
     });
 
-    
-    // logoText.split('').forEach(char => {
-    //     const span = document.createElement('span');
-    //     span.classList.add('letter');
-    //     span.textContent = char;
-    //     logoContainer.appendChild(span);
-    //     letters.push(span);
-    // });
-
-    
-
     function createGameCard(game) {
-        const gameCard = document.createElement('div');
-        gameCard.classList.add('game-card');
-
-        const gameImage = document.createElement('img');
-        gameImage.src = game.image;
-        gameImage.alt = game.title;
-
-        const gameTitle = document.createElement('h3');
-        gameTitle.classList.add('game-title');
-        gameTitle.textContent = game.title;
-
-        const gameLink = document.createElement('a');
-        gameLink.href = game.link;
-        gameLink.textContent = 'Play Now';
-        gameLink.classList.add('game-link');
-
-        gameCard.appendChild(gameImage);
-        gameCard.appendChild(gameTitle);
-        gameCard.appendChild(gameLink);
+        const { image, title, link } = game;
+        const gameCard = `
+            <div class="game-card">
+                <img src="${image}" alt="${title}">
+                <h3 class="game-title">${title}</h3>
+                <a href="${link}" class="game-link">Play Now</a>
+            </div>
+        `;
 
         return gameCard;
     }
 
     function displayGames(games) {
         gameCardsContainer.innerHTML = '';
-        games.forEach(game => {
-            const gameCard = createGameCard(game);
-            gameCardsContainer.appendChild(gameCard);
-        });
+        // games.forEach(game => {
+        //     const gameCard = createGameCard(game);
+        //     gameCardsContainer.appendChild(gameCard);
+        // });
+        //
+        // This code above is not efficient when there's lots of games because we're 
+        // updating the DOM every single time we have a game. Instead, we should update 
+        // it just once, here's how:
+
+        const allGameCardsHTML = [...Array(games.length)].map(game => createGameCard(game)).join('');
+        // This code above generates a string full of all of the HTML of each game combined.
+        // This way, we can just append it once to the DOM to save lots of time and efficiency.
+        console.log(allGameCardsHTML);
+        // Updating the DOM once:
+        gameCardsContainer.appendChild(allGameCardsHTML);
+
+
         updateSearchResultsCount(games.length);
     }
 
@@ -84,17 +75,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const mouseX = e.clientX;
         const mouseY = e.clientY;
         letters.forEach(letter => {
-            const rect = letter.getBoundingClientRect();
-            const letterX = rect.left + rect.width / 2;
-            const letterY = rect.top + rect.height / 2;
-            const dx = letterX - mouseX;
-            const dy = letterY - mouseY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const maxDistance = 100;
+            const rect = letter.getBoundingClientRect(),
+                  letterX = rect.left + rect.width / 2,
+                  letterY = rect.top + rect.height / 2,
+                  dx = letterX - mouseX,
+                  dy = letterY - mouseY,
+                  distance = Math.sqrt(dx * dx + dy * dy),
+                  maxDistance = 100;
             if (distance < maxDistance) {
-                const angle = Math.atan2(dy, dx);
-                const offsetX = Math.cos(angle) * (maxDistance - distance);
-                const offsetY = Math.sin(angle) * (maxDistance - distance);
+                const angle = Math.atan2(dy, dx),
+                      offsetX = Math.cos(angle) * (maxDistance - distance),
+                      offsetY = Math.sin(angle) * (maxDistance - distance);
                 letter.style.transition = 'transform 0.2s ease-out';
                 letter.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
             } else {
