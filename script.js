@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const allGameCardsHTML = games.map(game => createGameCard(game)).join('');
         // This code above generates a string full of all of the HTML of each game combined.
         // This way, we can just append it once to the DOM to save lots of time and efficiency.
-        console.log(allGameCardsHTML);
+        // console.log(allGameCardsHTML); - For testing purposes
         // Updating the DOM once:
         gameCardsContainer.insertAdjacentHTML('beforeend', allGameCardsHTML);
 
