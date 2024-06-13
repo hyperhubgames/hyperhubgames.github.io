@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Create the letters for the logo
     const letters = [...logoText].map(char => {
-        const span = document.createElement('span');
-        span.classList.add('letter');
-        span.textContent = char;
-        logoContainer.appendChild(span);
-        return span;
+        const spanEl = `
+            <span class="letter">${char}</span>
+        `
+        logoContainer.insertAdjacentHTML('beforeend', spanEl);
+        return spanEl;
     });
 
     function createGameCard(game) {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // This way, we can just append it once to the DOM to save lots of time and efficiency.
         console.log(allGameCardsHTML);
         // Updating the DOM once:
-        gameCardsContainer.appendChild(allGameCardsHTML);
+        gameCardsContainer.insertAdjacentHTML('beforeend', allGameCardsHTML);
 
 
         updateSearchResultsCount(games.length);
