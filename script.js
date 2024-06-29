@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     logoTextEl.innerHTML = newLogoHTML;
 
-    const logoTextSpanEls = Array.from(document.querySelectorAll("#logoText span"));
+    const logoTextSpanEls = Array.from(document.querySelectorAll("#logo-container span"));
 
     // Triggering animation when mouse enters
     logoTextEl.addEventListener("mouseenter", () => {
