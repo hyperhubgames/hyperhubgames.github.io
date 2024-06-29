@@ -7,17 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
           randomGameButton = document.getElementById('random-game'),
           logoContainer = document.getElementById('logo-container');
 
-    const logoText = 'HyperHub';
-
-    // Create the letters for the logo
-    const letters = [...logoText].map(char => {
-        const span = document.createElement('span');
-        span.classList.add('letter');
-        span.textContent = char;
-        logoContainer.appendChild(span);
-        return span;
-    });
-
     function createGameCard(game) {
         const { title, image, link } = game;
         const gameCard = `
@@ -32,24 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayGames(games) {
-        gameCardsContainer.innerHTML = '';
-        // games.forEach(game => {
-        //     const gameCard = createGameCard(game);
-        //     gameCardsContainer.appendChild(gameCard);
-        // });
-        //
-        // This code above is not efficient when there's lots of games because we're 
-        // updating the DOM every single time we have a game. Instead, we should update 
-        // it just once, here's how:
-
         const allGameCardsHTML = games.map(game => createGameCard(game)).join('');
-        // This code above generates a string full of all of the HTML of each game combined.
-        // This way, we can just append it once to the DOM to save lots of time and efficiency.
-        // console.log(allGameCardsHTML); - For testing purposes
-        // Updating the DOM once:
-        gameCardsContainer.insertAdjacentHTML('beforeend', allGameCardsHTML);
-
-
+        gameCardsContainer.innerHTML = allGameCardsHTML;
         updateSearchResultsCount(games.length);
     }
 
@@ -68,53 +41,36 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = games[randomIndex].link;
     });
 
-    let isMouseOver = false;
+    // Fancy logo text hover effect start -------------------------------------------------
 
-    document.addEventListener('mousemove', (e) => {
-        isMouseOver = true;
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
-        letters.forEach(letter => {
-            const rect = letter.getBoundingClientRect(),
-                  letterX = rect.left + rect.width / 2,
-                  letterY = rect.top + rect.height / 2,
-                  dx = letterX - mouseX,
-                  dy = letterY - mouseY,
-                  distance = Math.sqrt(dx * dx + dy * dy),
-                  maxDistance = 100;
-            if (distance < maxDistance) {
-                const angle = Math.atan2(dy, dx),
-                      offsetX = Math.cos(angle) * (maxDistance - distance),
-                      offsetY = Math.sin(angle) * (maxDistance - distance);
-                letter.style.transition = 'transform 0.2s ease-out';
-                letter.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-            } else {
-                letter.style.transition = 'transform 0.5s ease-in-out';
-                letter.style.transform = 'translate(0, 0)';
-            }
+    const logoTextEl = document.getElementById("logo-container"),
+          logoTextContent = logoTextEl.textContent;
+
+    const newLogoHTML = [...logoTextContent].map(char => (
+        char !== ' '
+            ? `<span>${char}</span>`
+            : char
+    )).join("");
+
+    logoTextEl.innerHTML = newLogoHTML;
+
+    const logoTextSpanEls = Array.from(document.querySelectorAll("#logoText span"));
+
+    // Triggering animation when mouse enters
+    logoTextEl.addEventListener("mouseenter", () => {
+        logoTextSpanEls.forEach((span, i) => {
+            span.style.animation = `letter-pulse 0.2s ease-in-out alternate ${i * 0.03}s`;
         });
     });
 
-    document.addEventListener('mouseleave', () => {
-        isMouseOver = false;
-        letters.forEach(letter => {
-            letter.style.transition = 'transform 1s ease-out';
-            letter.style.transform = 'translate(0, 0)';
+    // Removing animation when mouse leaves
+    logoTextEl.addEventListener("mouseleave", () => {
+        logoTextSpanEls.forEach(span => {
+            span.style.animation = "none";
         });
     });
 
-    // Ensure letters return to original position with a bounce effect
-    function resetLetters() {
-        if (!isMouseOver) {
-            letters.forEach(letter => {
-                letter.style.transition = 'transform 0.5s ease-in-out';
-                letter.style.transform = 'translate(0, 0)';
-            });
-        }
-        requestAnimationFrame(resetLetters);
-    }
-
-    resetLetters();
+    // End of fancy logo hover effect ----------------------------------------------------
 
     displayGames(games);
 });
